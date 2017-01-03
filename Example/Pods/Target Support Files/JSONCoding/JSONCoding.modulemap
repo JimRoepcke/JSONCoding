@@ -1,0 +1,6 @@
+framework module JSONCoding {
+  umbrella header "JSONCoding-umbrella.h"
+
+  export *
+  module * { export * }
+}

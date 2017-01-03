@@ -1,0 +1,7 @@
+use_frameworks!
+target 'JSONCoding_Tests' do
+  pod 'JSONCoding', :path => '../'
+  
+  pod 'Quick', '~> 1.0.0'
+  pod 'Nimble', '~> 5.1.1'
+end
