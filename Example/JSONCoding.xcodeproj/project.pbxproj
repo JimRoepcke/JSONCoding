@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		607FACEC1AFB9204008FA782 /* JSONUnarchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* JSONUnarchiver.swift */; };
 		CEE38F439386755CBEFDE6EA /* Pods_JSONCoding_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A24C9DAB021CD503FC19C0E4 /* Pods_JSONCoding_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -17,7 +17,7 @@
 		36246745792588BD7FF76D1C /* Pods-JSONCoding_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSONCoding_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-JSONCoding_Tests/Pods-JSONCoding_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* JSONCoding_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSONCoding_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		607FACEB1AFB9204008FA782 /* JSONUnarchiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONUnarchiver.swift; sourceTree = "<group>"; };
 		7DACE38BDD5F45ED4EA47AC0 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		8C38B400C844F2C157922E56 /* JSONCoding.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = JSONCoding.podspec; path = ../JSONCoding.podspec; sourceTree = "<group>"; };
 		A24C9DAB021CD503FC19C0E4 /* Pods_JSONCoding_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JSONCoding_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -57,7 +57,7 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				607FACEB1AFB9204008FA782 /* Tests.swift */,
+				607FACEB1AFB9204008FA782 /* JSONUnarchiver.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
@@ -219,7 +219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
+				607FACEC1AFB9204008FA782 /* JSONUnarchiver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
