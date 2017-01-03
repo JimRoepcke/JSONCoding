@@ -13,7 +13,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  JSONCoding: bc59aca30f2a63c31364a45d98c4a302bb537a50
+  JSONCoding: b7ee7f7a3a729fa1bec09c2c665665ea6f461d91
   Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
   Quick: 8024e4a47e6cc03a9d5245ef0948264fc6d27cff
 

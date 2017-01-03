@@ -1,9 +1,9 @@
 {
   "name": "JSONCoding",
   "version": "0.1.0",
-  "summary": "A short description of JSONCoding.",
+  "summary": "Unarchive values from JSON",
   "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/<GITHUB_USERNAME>/JSONCoding",
+  "homepage": "https://github.com/JimRoepcke/JSONCoding",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
@@ -12,11 +12,11 @@
     "Jim Roepcke": "jim@roepcke.com"
   },
   "source": {
-    "git": "https://github.com/<GITHUB_USERNAME>/JSONCoding.git",
+    "git": "https://github.com/JimRoepcke/JSONCoding.git",
     "tag": "0.1.0"
   },
   "platforms": {
-    "ios": "8.0"
+    "ios": "9.0"
   },
   "source_files": "JSONCoding/Classes/**/*"
 }
