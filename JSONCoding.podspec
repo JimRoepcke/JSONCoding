@@ -28,6 +28,7 @@ TODO: Add long description of the pod here.
   # s.social_media_url = 'https://twitter.com/JimRoepcke'
 
   s.ios.deployment_target = '9.0'
+  s.watchos.deployment_target = '2.0'
 
   s.source_files = 'JSONCoding/Classes/**/*'
 end
