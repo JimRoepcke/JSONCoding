@@ -93,9 +93,9 @@ open class JSONUnarchiver: JSONUnarchiving {
         }
     }
 
-    open func unarchived<T>(discardingErrorsMap jsons: [Any]) throws -> [T] where T: JSONCoding {
-        return try jsons.enumerated().flatMap { offset, json in
-            try JSONArrayOffsetKey(offset: offset).pushed(on: self) {
+    open func unarchived<T>(discardingErrorsMap jsons: [Any]) -> [T] where T: JSONCoding {
+        return jsons.enumerated().flatMap { offset, json in
+            JSONArrayOffsetKey(offset: offset).pushed(on: self) {
                 try? unarchived(with: json)
             }
         }
@@ -109,9 +109,9 @@ open class JSONUnarchiver: JSONUnarchiving {
         }
     }
 
-    public func discardingErrorsMap<T, U>(jsons: [T], transform: (T) throws -> U) throws -> [U] {
-        return try jsons.enumerated().flatMap { offset, json in
-            try JSONArrayOffsetKey(offset: offset).pushed(on: self) {
+    public func discardingErrorsMap<T, U>(jsons: [T], transform: (T) throws -> U) -> [U] {
+        return jsons.enumerated().flatMap { offset, json in
+            JSONArrayOffsetKey(offset: offset).pushed(on: self) {
                 try? transform(json)
             }
         }
@@ -133,9 +133,9 @@ open class JSONUnarchiver: JSONUnarchiving {
         }
     }
 
-    public func discardingErrorsFlatMap<T, U>(jsons: [T], transform: (T) throws -> [U]) throws -> [U] {
-        return try jsons.enumerated().flatMap { offset, json -> [U] in
-            try JSONArrayOffsetKey(offset: offset).pushed(on: self) {
+    public func discardingErrorsFlatMap<T, U>(jsons: [T], transform: (T) throws -> [U]) -> [U] {
+        return jsons.enumerated().flatMap { offset, json -> [U] in
+            JSONArrayOffsetKey(offset: offset).pushed(on: self) {
                 do {
                     return try transform(json)
                 } catch {
@@ -145,9 +145,9 @@ open class JSONUnarchiver: JSONUnarchiving {
         }
     }
 
-    public func discardingErrorsFlatMap<T, U>(jsons: [T], transform: (T) throws -> U?) rethrows -> [U] {
-        return try jsons.enumerated().flatMap { offset, json -> U? in
-            try JSONArrayOffsetKey(offset: offset).pushed(on: self) {
+    public func discardingErrorsFlatMap<T, U>(jsons: [T], transform: (T) throws -> U?) -> [U] {
+        return jsons.enumerated().flatMap { offset, json -> U? in
+            JSONArrayOffsetKey(offset: offset).pushed(on: self) {
                 do {
                     return try transform(json)
                 } catch {
@@ -167,9 +167,9 @@ open class JSONUnarchiver: JSONUnarchiving {
         return try unarchiver.unarchived(map: jsons)
     }
 
-    open static func topLevelUnarchived<T>(discardingErrorsMappedIn jsons: [Any], errorHandler: @escaping JSONUnarchiveErrorHandler) throws -> [T] where T: JSONCoding {
+    open static func topLevelUnarchived<T>(discardingErrorsMappedIn jsons: [Any], errorHandler: @escaping JSONUnarchiveErrorHandler) -> [T] where T: JSONCoding {
         let unarchiver = JSONUnarchiver(rootJSON: jsons, errorHandler: errorHandler)
-        return try unarchiver.unarchived(discardingErrorsMap: jsons)
+        return unarchiver.unarchived(discardingErrorsMap: jsons)
     }
 
 }
