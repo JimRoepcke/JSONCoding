@@ -286,7 +286,7 @@ public extension JSONKey {
 
     public func optionalAnyValue(in json: Any) throws -> Any? {
         switch json {
-        case let j as JSON:
+        case let j as NSDictionary:
             switch j[rawValue] {
             case .none:
                 return nil
@@ -302,7 +302,7 @@ public extension JSONKey {
 
     public func anyValue(in json: Any) throws -> Any {
         switch json {
-        case let j as JSON:
+        case let j as NSDictionary:
             switch j[rawValue] {
             case .none:
                 throw JSONError.missing(key: self)
