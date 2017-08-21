@@ -63,12 +63,12 @@ public extension JSONKey {
 
     // It's not possible to conform `JSON` to `JSONConvertible`, so
     // its hypothetical `byConverting` code is inlined instead.
-    static func JSON_byConverting(jsonValue: Any, from key: JSONKey) throws -> JSON {
+    static func JSON_byConverting(jsonValue: Any, from key: JSONKey) throws -> NSDictionary {
         switch jsonValue {
-        case let jsonValue as JSON:
+        case let jsonValue as NSDictionary:
             return jsonValue
         default:
-            throw JSONError.typeMismatch(key: key, expected: JSON.self, received: jsonValue)
+            throw JSONError.typeMismatch(key: key, expected: NSDictionary.self, received: jsonValue)
         }
     }
 
@@ -76,31 +76,31 @@ public extension JSONKey {
 
 public extension JSONKey {
 
-    public func optionalJSONValue(in json: Any) throws -> JSON? {
+    public func optionalJSONValue(in json: Any) throws -> NSDictionary? {
         let value = try optionalAnyValue(in: json)
         return try value.flatMap { try Self.JSON_byConverting(jsonValue: $0, from: self) }
     }
 
-    public func optionalJSONValue<U>(in json: Any, _ unarchiver: JSONUnarchiving, transform: (JSON) throws -> U) throws -> U? {
+    public func optionalJSONValue<U>(in json: Any, _ unarchiver: JSONUnarchiving, transform: (NSDictionary) throws -> U) throws -> U? {
         return try optionalAnyValue(in: json, unarchiver, transform: {
             let aJSON = try Self.JSON_byConverting(jsonValue: $0, from: self)
             return try transform(aJSON)
         })
     }
 
-    public func optionalJSONValue<U>(in json: Any, _ unarchiver: JSONUnarchiving, optionalTransform: (JSON) throws -> U?) throws -> U? {
+    public func optionalJSONValue<U>(in json: Any, _ unarchiver: JSONUnarchiving, optionalTransform: (NSDictionary) throws -> U?) throws -> U? {
         return try optionalAnyValue(in: json, unarchiver, optionalTransform: {
             let aJSON = try Self.JSON_byConverting(jsonValue: $0, from: self)
             return try optionalTransform(aJSON)
         })
     }
 
-    public func jsonValue(in json: Any) throws -> JSON {
+    public func jsonValue(in json: Any) throws -> NSDictionary {
         let value = try anyValue(in: json)
         return try Self.JSON_byConverting(jsonValue: value, from: self)
     }
 
-    public func jsonValue<U>(in json: Any, _ unarchiver: JSONUnarchiving, transform: (JSON) throws -> U) throws -> U {
+    public func jsonValue<U>(in json: Any, _ unarchiver: JSONUnarchiving, transform: (NSDictionary) throws -> U) throws -> U {
         return try anyValue(in: json, unarchiver) {
             let aJSON = try Self.JSON_byConverting(jsonValue: $0, from: self)
             return try transform(aJSON)
