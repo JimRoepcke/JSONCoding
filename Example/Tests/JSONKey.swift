@@ -59,6 +59,46 @@ class JSONKeySpec: QuickSpec {
                     }
                 }
 
+                it("returns nil when the key list doesn't match the json") {
+                    guard let json = json, let unarchiver = unarchiver else { return fail() }
+                    do {
+                        let result: String? = try Key.keys(.a, .c, .b).optionalJSONValue(in: json, unarchiver) {
+                            try Key.result.optionalValue(in: $0)
+                        }
+                        expect(result).to(beNil())
+                    } catch {
+                        fail("\(error)")
+                    }
+                }
+
+                it("doesn't affect the key stack when it works") {
+                    guard let json = json, let unarchiver = unarchiver else { return fail() }
+                    do {
+                        let beforeKeyStack = unarchiver.keyStack
+                        let _: String? = try Key.keys(.a, .b, .c).optionalJSONValue(in: json, unarchiver) {
+                            try Key.result.optionalValue(in: $0)
+                        }
+                        let afterKeyStack = unarchiver.keyStack
+                        expect(beforeKeyStack.count) == afterKeyStack.count
+                    } catch {
+                        fail("\(error)")
+                    }
+                }
+
+                it("doesn't affect the key stack when the json doesn't match the key list") {
+                    guard let json = json, let unarchiver = unarchiver else { return fail() }
+                    do {
+                        let beforeKeyStack = unarchiver.keyStack
+                        let _: String? = try Key.keys(.a, .c, .b).optionalJSONValue(in: json, unarchiver) {
+                            try Key.result.optionalValue(in: $0)
+                        }
+                        let afterKeyStack = unarchiver.keyStack
+                        expect(beforeKeyStack.count) == afterKeyStack.count
+                    } catch {
+                        fail("\(error)")
+                    }
+                }
+
             }
         }
     }
