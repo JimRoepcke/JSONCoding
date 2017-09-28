@@ -3,5 +3,5 @@ target 'JSONCoding_Tests' do
   pod 'JSONCoding', :path => '../'
   
   pod 'Quick', '~> 1.0.0'
-  pod 'Nimble', '~> 5.1.1'
+  pod 'Nimble', '~> 7.0', :inhibit_warnings => true
 end
