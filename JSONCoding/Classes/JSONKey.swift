@@ -74,7 +74,29 @@ public extension JSONKey {
 
 }
 
+public extension Array where Element: JSONKey {
+    public func optionalJSONValue<U>(in json: Any, _ unarchiver: JSONUnarchiving, optionalTransform: (NSDictionary) throws -> U?) throws -> U? {
+        var current: NSDictionary? = nil
+        var keysPushed = [JSONKey]()
+        for key in self {
+            if let inside = try key.optionalJSONValue(in: current ?? json) {
+                unarchiver.push(key: key)
+                keysPushed.append(key)
+                current = inside
+            } else {
+                keysPushed.forEach { _ in unarchiver.popKey() }
+                return nil
+            }
+        }
+        return try current.flatMap(optionalTransform)
+    }
+}
+
 public extension JSONKey {
+
+    public static func keys(_ args: Self...) -> [Self] {
+        return args
+    }
 
     public func optionalJSONValue(in json: Any) throws -> NSDictionary? {
         let value = try optionalAnyValue(in: json)
