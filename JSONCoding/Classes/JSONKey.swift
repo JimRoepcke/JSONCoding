@@ -25,13 +25,19 @@
 //
 
 public protocol JSONKey {
-    var rawValue: String { get }
+    var keyValue: String { get }
+}
+
+public extension JSONKey where Self: RawRepresentable, Self.RawValue == String {
+    var keyValue: String {
+        return rawValue
+    }
 }
 
 public struct JSONRandomKey: JSONKey {
-    public let rawValue: String
-    public init(rawValue: String) {
-        self.rawValue = rawValue
+    public let keyValue: String
+    public init(keyValue: String) {
+        self.keyValue = keyValue
     }
 }
 
@@ -42,8 +48,8 @@ public struct JSONCompoundKey: JSONKey {
         self.keys = keys
     }
 
-    public var rawValue: String {
-        return keys.map({$0.rawValue}).joined(separator: "")
+    public var keyValue: String {
+        return keys.map({$0.keyValue}).joined(separator: "")
     }
 }
 
@@ -54,7 +60,7 @@ public struct JSONArrayOffsetKey: JSONKey {
         self.offset = offset
     }
 
-    public var rawValue: String {
+    public var keyValue: String {
         return "[\(offset)]"
     }
 }
@@ -140,13 +146,13 @@ public extension JSONKey {
     }
 
     public func optionalKeyValue(in json: Any) throws -> JSONKey? {
-        let rawValue: String? = try optionalValue(in: json)
-        return rawValue.flatMap { JSONRandomKey(rawValue: $0) }
+        let keyValue: String? = try optionalValue(in: json)
+        return keyValue.flatMap { JSONRandomKey(keyValue: $0) }
     }
 
     public func keyValue(in json: Any) throws -> JSONKey {
-        let rawValue: String = try value(in: json)
-        return JSONRandomKey(rawValue: rawValue)
+        let keyValue: String = try value(in: json)
+        return JSONRandomKey(keyValue: keyValue)
     }
 
     public func optionalUnarchivedValue<T: JSONCoding>(in json: Any, _ unarchiver: JSONUnarchiving) throws -> T? {
@@ -309,7 +315,7 @@ public extension JSONKey {
     public func optionalAnyValue(in json: Any) throws -> Any? {
         switch json {
         case let j as NSDictionary:
-            switch j[rawValue] {
+            switch j[keyValue] {
             case .none:
                 return nil
             case let .some(value) where type(of: value) == NSNull.self:
@@ -325,7 +331,7 @@ public extension JSONKey {
     public func anyValue(in json: Any) throws -> Any {
         switch json {
         case let j as NSDictionary:
-            switch j[rawValue] {
+            switch j[keyValue] {
             case .none:
                 throw JSONError.missing(key: self)
             case let .some(value) where type(of: value) == NSNull.self:
