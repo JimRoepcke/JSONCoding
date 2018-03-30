@@ -32,8 +32,8 @@ public protocol JSONUnarchiving {
     func discardingErrorsMap<T, U>(jsons: [T], transform: (T) throws -> U) throws -> [U]
     func flatMap<T, U>(jsons: [T], transform: (T) throws -> [U]) throws -> [U]
     func discardingErrorsFlatMap<T, U>(jsons: [T], transform: (T) throws -> [U]) throws -> [U]
-    func flatMap<T, U>(jsons: [T], transform: (T) throws -> U?) rethrows -> [U]
-    func discardingErrorsFlatMap<T, U>(jsons: [T], transform: (T) throws -> U?) rethrows -> [U]
+    func compactMap<T, U>(jsons: [T], transform: (T) throws -> U?) rethrows -> [U]
+    func discardingErrorsCompactMap<T, U>(jsons: [T], transform: (T) throws -> U?) rethrows -> [U]
     var keyStack: [JSONKey] { get }
     func push(key: JSONKey)
     @discardableResult
@@ -125,7 +125,7 @@ open class JSONUnarchiver: JSONUnarchiving {
         }
     }
 
-    public func flatMap<T, U>(jsons: [T], transform: (T) throws -> U?) rethrows -> [U] {
+    public func compactMap<T, U>(jsons: [T], transform: (T) throws -> U?) rethrows -> [U] {
         return try jsons.enumerated().flatMap { offset, json in
             try JSONArrayOffsetKey(offset: offset).pushed(on: self) {
                 try transform(json)
@@ -145,7 +145,7 @@ open class JSONUnarchiver: JSONUnarchiving {
         }
     }
 
-    public func discardingErrorsFlatMap<T, U>(jsons: [T], transform: (T) throws -> U?) -> [U] {
+    public func discardingErrorsCompactMap<T, U>(jsons: [T], transform: (T) throws -> U?) -> [U] {
         return jsons.enumerated().flatMap { offset, json -> U? in
             JSONArrayOffsetKey(offset: offset).pushed(on: self) {
                 do {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		381A2EC6206E9E5F006054FB /* JSONKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 381A2EC5206E9E5F006054FB /* JSONKey.swift */; };
 		607FACEC1AFB9204008FA782 /* JSONUnarchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* JSONUnarchiver.swift */; };
 		CEE38F439386755CBEFDE6EA /* Pods_JSONCoding_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A24C9DAB021CD503FC19C0E4 /* Pods_JSONCoding_Tests.framework */; };
 /* End PBXBuildFile section */
@@ -15,6 +16,7 @@
 		161414B863E23209D28CFD7E /* Pods-JSONCoding_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSONCoding_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JSONCoding_Tests/Pods-JSONCoding_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		29A31D3207C856C209893754 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		36246745792588BD7FF76D1C /* Pods-JSONCoding_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JSONCoding_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-JSONCoding_Tests/Pods-JSONCoding_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		381A2EC5206E9E5F006054FB /* JSONKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONKey.swift; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* JSONCoding_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSONCoding_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* JSONUnarchiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONUnarchiver.swift; sourceTree = "<group>"; };
@@ -57,6 +59,7 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				381A2EC5206E9E5F006054FB /* JSONKey.swift */,
 				607FACEB1AFB9204008FA782 /* JSONUnarchiver.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
@@ -220,6 +223,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACEC1AFB9204008FA782 /* JSONUnarchiver.swift in Sources */,
+				381A2EC6206E9E5F006054FB /* JSONKey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
