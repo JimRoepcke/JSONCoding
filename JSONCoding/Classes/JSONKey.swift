@@ -246,9 +246,9 @@ public extension JSONKey {
         }
     }
 
-    public func flatMap<T, U>(in json: Any, _ unarchiver: JSONUnarchiving, transform: (T) throws -> U?) throws -> [U] {
+    public func compactMap<T, U>(in json: Any, _ unarchiver: JSONUnarchiving, transform: (T) throws -> U?) throws -> [U] {
         return try value(in: json, unarchiver) {
-            try unarchiver.flatMap(jsons: $0, transform: transform)
+            try unarchiver.compactMap(jsons: $0, transform: transform)
         }
     }
 
@@ -258,9 +258,9 @@ public extension JSONKey {
         }
     }
 
-    public func discardingErrorsFlatMap<T, U>(in json: Any, _ unarchiver: JSONUnarchiving, transform: (T) throws -> U?) throws -> [U] {
+    public func discardingErrorsCompactMap<T, U>(in json: Any, _ unarchiver: JSONUnarchiving, transform: (T) throws -> U?) throws -> [U] {
         return try value(in: json, unarchiver) {
-            try unarchiver.discardingErrorsFlatMap(jsons: $0, transform: transform)
+            try unarchiver.discardingErrorsCompactMap(jsons: $0, transform: transform)
         }
     }
 
@@ -282,9 +282,9 @@ public extension JSONKey {
         }
     }
 
-    public func optionalFlatMap<T, U>(in json: Any, _ unarchiver: JSONUnarchiving, transform: (T) throws -> U?) throws -> [U]? {
+    public func optionalCompactMap<T, U>(in json: Any, _ unarchiver: JSONUnarchiving, transform: (T) throws -> U?) throws -> [U]? {
         return try optionalValue(in: json, unarchiver) {
-            try unarchiver.flatMap(jsons: $0, transform: transform)
+            try unarchiver.compactMap(jsons: $0, transform: transform)
         }
     }
 
@@ -294,9 +294,9 @@ public extension JSONKey {
         }
     }
 
-    public func optionalDiscardingErrorsFlatMap<T, U>(in json: Any, _ unarchiver: JSONUnarchiving, transform: (T) throws -> U?) throws -> [U]? {
+    public func optionalDiscardingErrorsCompactMap<T, U>(in json: Any, _ unarchiver: JSONUnarchiving, transform: (T) throws -> U?) throws -> [U]? {
         return try optionalValue(in: json, unarchiver) {
-            try unarchiver.discardingErrorsFlatMap(jsons: $0, transform: transform)
+            try unarchiver.discardingErrorsCompactMap(jsons: $0, transform: transform)
         }
     }
 
