@@ -157,17 +157,17 @@ open class JSONUnarchiver: JSONUnarchiving {
         }
     }
 
-    open static func topLevelUnarchived<T>(with rootJSON: Any, errorHandler: @escaping JSONUnarchiveErrorHandler) throws -> T where T: JSONCoding {
+    open class func topLevelUnarchived<T>(with rootJSON: Any, errorHandler: @escaping JSONUnarchiveErrorHandler) throws -> T where T: JSONCoding {
         let unarchiver = JSONUnarchiver(rootJSON: rootJSON, errorHandler: errorHandler)
         return try unarchiver.unarchived(with: rootJSON)
     }
 
-    open static func topLevelUnarchived<T>(mappedIn jsons: [Any], errorHandler: @escaping JSONUnarchiveErrorHandler) throws -> [T] where T: JSONCoding {
+    open class func topLevelUnarchived<T>(mappedIn jsons: [Any], errorHandler: @escaping JSONUnarchiveErrorHandler) throws -> [T] where T: JSONCoding {
         let unarchiver = JSONUnarchiver(rootJSON: jsons, errorHandler: errorHandler)
         return try unarchiver.unarchived(map: jsons)
     }
 
-    open static func topLevelUnarchived<T>(discardingErrorsMappedIn jsons: [Any], errorHandler: @escaping JSONUnarchiveErrorHandler) -> [T] where T: JSONCoding {
+    open class func topLevelUnarchived<T>(discardingErrorsMappedIn jsons: [Any], errorHandler: @escaping JSONUnarchiveErrorHandler) -> [T] where T: JSONCoding {
         let unarchiver = JSONUnarchiver(rootJSON: jsons, errorHandler: errorHandler)
         return unarchiver.unarchived(discardingErrorsMap: jsons)
     }
