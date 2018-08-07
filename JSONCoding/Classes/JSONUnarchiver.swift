@@ -97,7 +97,12 @@ open class JSONUnarchiver: JSONUnarchiving {
     open func unarchived<T>(discardingErrorsMap jsons: [Any]) -> [T] where T: JSONCoding {
         return jsons.enumerated().flatMap { offset, json in
             JSONArrayOffsetKey(offset: offset).pushed(on: self) {
-                try? unarchived(with: json)
+                do {
+                    return try unarchived(with: json)
+                } catch {
+                    errorHandler(self, T.self, json, error)
+                    return nil
+                }
             }
         }
     }
@@ -113,7 +118,12 @@ open class JSONUnarchiver: JSONUnarchiving {
     public func discardingErrorsMap<T, U>(jsons: [T], transform: (T) throws -> U) -> [U] {
         return jsons.enumerated().flatMap { offset, json in
             JSONArrayOffsetKey(offset: offset).pushed(on: self) {
-                try? transform(json)
+                do {
+                    return try transform(json)
+                } catch {
+                    errorHandler(self, T.self, json, error)
+                    return nil
+                }
             }
         }
     }
