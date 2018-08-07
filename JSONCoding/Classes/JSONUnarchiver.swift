@@ -27,7 +27,7 @@
 public protocol JSONUnarchiving {
     func unarchived<T>(with json: Any) throws -> T where T: JSONCoding
     func unarchived<T>(map jsons: [Any]) throws -> [T] where T: JSONCoding
-    func unarchived<T>(discardingErrorsMap jsons: [Any]) throws -> [T] where T: JSONCoding
+    func unarchived<T>(discardingErrorsMap jsons: [Any]) -> [T] where T: JSONCoding
     func map<T, U>(jsons: [T], transform: (T) throws -> U) throws -> [U]
     func discardingErrorsMap<T, U>(jsons: [T], transform: (T) throws -> U) throws -> [U]
     func flatMap<T, U>(jsons: [T], transform: (T) throws -> [U]) throws -> [U]
