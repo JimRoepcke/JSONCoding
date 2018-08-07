@@ -163,6 +163,12 @@ public extension JSONKey {
         }
     }
 
+    public func optionalUnarchivedValue<T: JSONCoding>(discardingErrorsIn json: Any, _ unarchiver: JSONUnarchiving) throws -> T? {
+        return try optionalAnyValue(in: json, unarchiver) {
+            try? unarchiver.unarchived(with: $0)
+        }
+    }
+
     public func unarchivedValue<T: JSONCoding>(in json: Any, _ unarchiver: JSONUnarchiving) throws -> T {
         return try anyValue(in: json, unarchiver) {
             try unarchiver.unarchived(with: $0)
