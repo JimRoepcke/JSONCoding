@@ -24,6 +24,8 @@
 //  IN THE SOFTWARE.
 //
 
+import Foundation
+
 public protocol JSONKey {
     var keyValue: String { get }
 }
