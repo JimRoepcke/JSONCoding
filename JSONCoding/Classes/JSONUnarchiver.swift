@@ -38,6 +38,7 @@ public protocol JSONUnarchiving {
     func push(key: JSONKey)
     @discardableResult
     func popKey() -> JSONKey?
+    var errorHandler: JSONUnarchiveErrorHandler { get }
 }
 
 extension JSONKey {
@@ -53,7 +54,7 @@ extension JSONKey {
 /// Closure that accepts the JSONUnarchiver, the JSONCoding type that failed to
 /// be unarchived, the JSON that was passed into the `_unarchived` method, and
 /// the error thrown.
-public typealias JSONUnarchiveErrorHandler = (JSONUnarchiver, Any.Type, Any, Error) -> Void
+public typealias JSONUnarchiveErrorHandler = (JSONUnarchiving, Any.Type, Any, Error) -> Void
 
 open class JSONUnarchiver: JSONUnarchiving {
 
