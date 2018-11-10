@@ -27,7 +27,7 @@
 public protocol JSONUnarchiving {
     func unarchived<T>(with json: Any) throws -> T where T: JSONCoding
     func unarchived<T>(map jsons: [Any]) throws -> [T] where T: JSONCoding
-    func unarchived<T>(discardingErrorsMap jsons: [Any]) throws -> [T] where T: JSONCoding
+    func unarchived<T>(discardingErrorsMap jsons: [Any]) -> [T] where T: JSONCoding
     func map<T, U>(jsons: [T], transform: (T) throws -> U) throws -> [U]
     func discardingErrorsMap<T, U>(jsons: [T], transform: (T) throws -> U) throws -> [U]
     func flatMap<T, U>(jsons: [T], transform: (T) throws -> [U]) throws -> [U]
@@ -38,6 +38,7 @@ public protocol JSONUnarchiving {
     func push(key: JSONKey)
     @discardableResult
     func popKey() -> JSONKey?
+    var errorHandler: JSONUnarchiveErrorHandler { get }
 }
 
 extension JSONKey {
@@ -53,7 +54,7 @@ extension JSONKey {
 /// Closure that accepts the JSONUnarchiver, the JSONCoding type that failed to
 /// be unarchived, the JSON that was passed into the `_unarchived` method, and
 /// the error thrown.
-public typealias JSONUnarchiveErrorHandler = (JSONUnarchiver, Any.Type, Any, Error) -> Void
+public typealias JSONUnarchiveErrorHandler = (JSONUnarchiving, Any.Type, Any, Error) -> Void
 
 open class JSONUnarchiver: JSONUnarchiving {
 
@@ -96,7 +97,12 @@ open class JSONUnarchiver: JSONUnarchiving {
     open func unarchived<T>(discardingErrorsMap jsons: [Any]) -> [T] where T: JSONCoding {
         return jsons.enumerated().flatMap { offset, json in
             JSONArrayOffsetKey(offset: offset).pushed(on: self) {
-                try? unarchived(with: json)
+                do {
+                    return try unarchived(with: json)
+                } catch {
+                    errorHandler(self, T.self, json, error)
+                    return nil
+                }
             }
         }
     }
@@ -112,7 +118,12 @@ open class JSONUnarchiver: JSONUnarchiving {
     public func discardingErrorsMap<T, U>(jsons: [T], transform: (T) throws -> U) -> [U] {
         return jsons.enumerated().flatMap { offset, json in
             JSONArrayOffsetKey(offset: offset).pushed(on: self) {
-                try? transform(json)
+                do {
+                    return try transform(json)
+                } catch {
+                    errorHandler(self, T.self, json, error)
+                    return nil
+                }
             }
         }
     }
@@ -157,17 +168,17 @@ open class JSONUnarchiver: JSONUnarchiving {
         }
     }
 
-    open static func topLevelUnarchived<T>(with rootJSON: Any, errorHandler: @escaping JSONUnarchiveErrorHandler) throws -> T where T: JSONCoding {
+    open class func topLevelUnarchived<T>(with rootJSON: Any, errorHandler: @escaping JSONUnarchiveErrorHandler) throws -> T where T: JSONCoding {
         let unarchiver = JSONUnarchiver(rootJSON: rootJSON, errorHandler: errorHandler)
         return try unarchiver.unarchived(with: rootJSON)
     }
 
-    open static func topLevelUnarchived<T>(mappedIn jsons: [Any], errorHandler: @escaping JSONUnarchiveErrorHandler) throws -> [T] where T: JSONCoding {
+    open class func topLevelUnarchived<T>(mappedIn jsons: [Any], errorHandler: @escaping JSONUnarchiveErrorHandler) throws -> [T] where T: JSONCoding {
         let unarchiver = JSONUnarchiver(rootJSON: jsons, errorHandler: errorHandler)
         return try unarchiver.unarchived(map: jsons)
     }
 
-    open static func topLevelUnarchived<T>(discardingErrorsMappedIn jsons: [Any], errorHandler: @escaping JSONUnarchiveErrorHandler) -> [T] where T: JSONCoding {
+    open class func topLevelUnarchived<T>(discardingErrorsMappedIn jsons: [Any], errorHandler: @escaping JSONUnarchiveErrorHandler) -> [T] where T: JSONCoding {
         let unarchiver = JSONUnarchiver(rootJSON: jsons, errorHandler: errorHandler)
         return unarchiver.unarchived(discardingErrorsMap: jsons)
     }

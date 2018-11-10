@@ -24,6 +24,8 @@
 //  IN THE SOFTWARE.
 //
 
+import Foundation
+
 public protocol JSONKey {
     var keyValue: String { get }
 }
@@ -161,6 +163,17 @@ public extension JSONKey {
         }
     }
 
+    public func optionalUnarchivedValue<T: JSONCoding>(discardingErrorsIn json: Any, _ unarchiver: JSONUnarchiving) throws -> T? {
+        return try optionalAnyValue(in: json, unarchiver) {
+            do {
+                return try unarchiver.unarchived(with: $0)
+            } catch {
+                unarchiver.errorHandler(unarchiver, T.self, json, error)
+                return nil
+            }
+        }
+    }
+
     public func unarchivedValue<T: JSONCoding>(in json: Any, _ unarchiver: JSONUnarchiving) throws -> T {
         return try anyValue(in: json, unarchiver) {
             try unarchiver.unarchived(with: $0)
@@ -181,13 +194,13 @@ public extension JSONKey {
 
     public func optionalUnarchivedValues<T: JSONCoding>(discardingErrorsMappedIn json: Any, _ unarchiver: JSONUnarchiving) throws -> [T]? {
         return try optionalValue(in: json, unarchiver) { (jsons: [Any]) in
-            try unarchiver.unarchived(discardingErrorsMap: jsons)
+            unarchiver.unarchived(discardingErrorsMap: jsons)
         }
     }
 
     public func unarchivedValues<T: JSONCoding>(discardingErrorsMappedIn json: Any, _ unarchiver: JSONUnarchiving) throws -> [T] {
         return try value(in: json, unarchiver) { (jsons: [Any]) in
-            try unarchiver.unarchived(discardingErrorsMap: jsons)
+            unarchiver.unarchived(discardingErrorsMap: jsons)
         }
     }
 
