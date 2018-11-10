@@ -139,7 +139,7 @@ public extension JSONKey {
 
     public func optionalDateValue(timeIntervalSince1970In json: Any) throws -> Date? {
         let interval: TimeInterval? = try optionalValue(in: json)
-        return interval.flatMap { Date(timeIntervalSince1970: $0) }
+        return interval.flatMap(Date.init(timeIntervalSince1970:))
     }
 
     public func dateValue(timeIntervalSince1970In json: Any) throws -> Date {
@@ -149,7 +149,7 @@ public extension JSONKey {
 
     public func optionalKeyValue(in json: Any) throws -> JSONKey? {
         let keyValue: String? = try optionalValue(in: json)
-        return keyValue.flatMap { JSONRandomKey(keyValue: $0) }
+        return keyValue.flatMap(JSONRandomKey.init(keyValue:))
     }
 
     public func keyValue(in json: Any) throws -> JSONKey {
@@ -158,9 +158,7 @@ public extension JSONKey {
     }
 
     public func optionalUnarchivedValue<T: JSONCoding>(in json: Any, _ unarchiver: JSONUnarchiving) throws -> T? {
-        return try optionalAnyValue(in: json, unarchiver) {
-            try unarchiver.unarchived(with: $0)
-        }
+        return try optionalAnyValue(in: json, unarchiver, transform: unarchiver.unarchived(with:))
     }
 
     public func optionalUnarchivedValue<T: JSONCoding>(discardingErrorsIn json: Any, _ unarchiver: JSONUnarchiving) throws -> T? {
@@ -175,50 +173,36 @@ public extension JSONKey {
     }
 
     public func unarchivedValue<T: JSONCoding>(in json: Any, _ unarchiver: JSONUnarchiving) throws -> T {
-        return try anyValue(in: json, unarchiver) {
-            try unarchiver.unarchived(with: $0)
-        }
+        return try anyValue(in: json, unarchiver, transform: unarchiver.unarchived(with:))
     }
 
     public func optionalUnarchivedValues<T: JSONCoding>(mappedIn json: Any, _ unarchiver: JSONUnarchiving) throws -> [T]? {
-        return try optionalValue(in: json, unarchiver) { (jsons: [Any]) in
-            try unarchiver.unarchived(map: jsons)
-        }
+        return try optionalValue(in: json, unarchiver, transform: unarchiver.unarchived(map:))
     }
 
     public func unarchivedValues<T: JSONCoding>(mappedIn json: Any, _ unarchiver: JSONUnarchiving) throws -> [T] {
-        return try value(in: json, unarchiver) { (jsons: [Any]) in
-            try unarchiver.unarchived(map: jsons)
-        }
+        return try value(in: json, unarchiver, transform: unarchiver.unarchived(map:))
     }
 
     public func optionalUnarchivedValues<T: JSONCoding>(discardingErrorsMappedIn json: Any, _ unarchiver: JSONUnarchiving) throws -> [T]? {
-        return try optionalValue(in: json, unarchiver) { (jsons: [Any]) in
-            unarchiver.unarchived(discardingErrorsMap: jsons)
-        }
+        return try optionalValue(in: json, unarchiver, transform: unarchiver.unarchived(discardingErrorsMap:))
     }
 
     public func unarchivedValues<T: JSONCoding>(discardingErrorsMappedIn json: Any, _ unarchiver: JSONUnarchiving) throws -> [T] {
-        return try value(in: json, unarchiver) { (jsons: [Any]) in
-            unarchiver.unarchived(discardingErrorsMap: jsons)
-        }
+        return try value(in: json, unarchiver, transform: unarchiver.unarchived(discardingErrorsMap:))
     }
 
     public func optionalAnyValue<U>(in json: Any, _ unarchiver: JSONUnarchiving, transform: (Any) throws -> U) throws -> U? {
         let optionalValue = try optionalAnyValue(in: json)
         return try optionalValue.flatMap { value in
-            try pushed(on: unarchiver) {
-                try transform(value)
-            }
+            try pushed(on: unarchiver, do: transform)
         }
     }
 
     public func optionalAnyValue<U>(in json: Any, _ unarchiver: JSONUnarchiving, optionalTransform: (Any) throws -> U?) throws -> U? {
         let optionalValue = try optionalAnyValue(in: json)
         return try optionalValue.flatMap { value in
-            try pushed(on: unarchiver) {
-                try optionalTransform(value)
-            }
+            try pushed(on: unarchiver, do: optionalTransform)
         }
     }
 
