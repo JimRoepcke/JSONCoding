@@ -26,6 +26,7 @@
 
 public protocol JSONUnarchiving {
     func unarchived<T>(with json: Any) throws -> T where T: JSONCoding
+    func optionalUnarchived<T>(with json: Any) throws -> T? where T: JSONCoding
     func unarchived<T>(map jsons: [Any]) throws -> [T] where T: JSONCoding
     func unarchived<T>(discardingErrorsMap jsons: [Any]) -> [T] where T: JSONCoding
     func map<T, U>(jsons: [T], transform: (T) throws -> U) throws -> [U]
@@ -84,6 +85,12 @@ open class JSONUnarchiver: JSONUnarchiving {
             errorHandler(self, T.self, json, error)
             throw error
         }
+    }
+
+    open func optionalUnarchived<T>(with json: Any) throws -> T? where T: JSONCoding {
+        return json is NSNull
+            ? nil
+            : try unarchived(with: json)
     }
 
     open func unarchived<T>(map jsons: [Any]) throws -> [T] where T: JSONCoding {
@@ -171,6 +178,11 @@ open class JSONUnarchiver: JSONUnarchiving {
     open class func topLevelUnarchived<T>(with rootJSON: Any, errorHandler: @escaping JSONUnarchiveErrorHandler) throws -> T where T: JSONCoding {
         let unarchiver = JSONUnarchiver(rootJSON: rootJSON, errorHandler: errorHandler)
         return try unarchiver.unarchived(with: rootJSON)
+    }
+
+    open class func topLevelOptionalUnarchived<T>(with rootJSON: Any, errorHandler: @escaping JSONUnarchiveErrorHandler) throws -> T? where T: JSONCoding {
+        let unarchiver = JSONUnarchiver(rootJSON: rootJSON, errorHandler: errorHandler)
+        return try unarchiver.optionalUnarchived(with: rootJSON)
     }
 
     open class func topLevelUnarchived<T>(mappedIn jsons: [Any], errorHandler: @escaping JSONUnarchiveErrorHandler) throws -> [T] where T: JSONCoding {

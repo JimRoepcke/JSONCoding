@@ -23,6 +23,8 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 //  IN THE SOFTWARE.
 //
+
+import Foundation
 import Quick
 import Nimble
 import JSONCoding
@@ -35,10 +37,20 @@ class JSONUnarchiverSpec: QuickSpec {
 
                 it("can unarchive a VerySimpleTestThing") {
                     let number = 42
-                    let json: JSON = ["number": number]
+                    let json: Any = ["number": number] as JSON
                     do {
                         let thing: VerySimpleTestThing = try JSONUnarchiver.topLevelUnarchived(with: json) { _ in }
                         expect(thing.number) == number
+                    } catch {
+                        fail("\(error)")
+                    }
+                }
+
+                fit("returns nil when given null") {
+                    let json: Any = NSNull()
+                    do {
+                        let thing: VerySimpleTestThing? = try JSONUnarchiver.topLevelOptionalUnarchived(with: json) { _ in }
+                        expect(thing).to(beNil())
                     } catch {
                         fail("\(error)")
                     }
