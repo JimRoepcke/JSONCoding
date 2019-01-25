@@ -102,7 +102,7 @@ open class JSONUnarchiver: JSONUnarchiving {
     }
 
     open func unarchived<T>(discardingErrorsMap jsons: [Any]) -> [T] where T: JSONCoding {
-        return jsons.enumerated().flatMap { offset, json in
+        return jsons.enumerated().compactMap { offset, json in
             JSONArrayOffsetKey(offset: offset).pushed(on: self) {
                 do {
                     return try unarchived(with: json)
@@ -123,7 +123,7 @@ open class JSONUnarchiver: JSONUnarchiving {
     }
 
     public func discardingErrorsMap<T, U>(jsons: [T], transform: (T) throws -> U) -> [U] {
-        return jsons.enumerated().flatMap { offset, json in
+        return jsons.enumerated().compactMap { offset, json in
             JSONArrayOffsetKey(offset: offset).pushed(on: self) {
                 do {
                     return try transform(json)
@@ -144,7 +144,7 @@ open class JSONUnarchiver: JSONUnarchiving {
     }
 
     public func compactMap<T, U>(jsons: [T], transform: (T) throws -> U?) rethrows -> [U] {
-        return try jsons.enumerated().flatMap { offset, json in
+        return try jsons.enumerated().compactMap { offset, json in
             try JSONArrayOffsetKey(offset: offset).pushed(on: self) {
                 try transform(json)
             }
@@ -164,7 +164,7 @@ open class JSONUnarchiver: JSONUnarchiving {
     }
 
     public func discardingErrorsCompactMap<T, U>(jsons: [T], transform: (T) throws -> U?) -> [U] {
-        return jsons.enumerated().flatMap { offset, json -> U? in
+        return jsons.enumerated().compactMap { offset, json -> U? in
             JSONArrayOffsetKey(offset: offset).pushed(on: self) {
                 do {
                     return try transform(json)
