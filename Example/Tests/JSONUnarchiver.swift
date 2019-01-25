@@ -39,7 +39,7 @@ class JSONUnarchiverSpec: QuickSpec {
                     let number = 42
                     let json: Any = ["number": number] as JSON
                     do {
-                        let thing: VerySimpleTestThing = try JSONUnarchiver.topLevelUnarchived(with: json) { _ in }
+                        let thing: VerySimpleTestThing = try JSONUnarchiver.topLevelUnarchived(with: json) { _, _, _, _  in }
                         expect(thing.number) == number
                     } catch {
                         fail("\(error)")
@@ -49,7 +49,7 @@ class JSONUnarchiverSpec: QuickSpec {
                 fit("returns nil when given null") {
                     let json: Any = NSNull()
                     do {
-                        let thing: VerySimpleTestThing? = try JSONUnarchiver.topLevelOptionalUnarchived(with: json) { _ in }
+                        let thing: VerySimpleTestThing? = try JSONUnarchiver.topLevelOptionalUnarchived(with: json) { _, _, _, _  in }
                         expect(thing).to(beNil())
                     } catch {
                         fail("\(error)")
