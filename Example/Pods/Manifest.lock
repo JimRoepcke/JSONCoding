@@ -1,12 +1,12 @@
 PODS:
   - JSONCoding (0.1.0)
-  - Nimble (7.3.2)
-  - Quick (1.3.2)
+  - Nimble (8.0.1)
+  - Quick (2.1.0)
 
 DEPENDENCIES:
   - JSONCoding (from `../`)
-  - Nimble (~> 7.3)
-  - Quick (~> 1.3)
+  - Nimble (~> 8.0)
+  - Quick (~> 2.1)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -18,10 +18,10 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  JSONCoding: 2b43caa20f28fcf32117a6bc59f9793295007c3d
-  Nimble: 5e94a8cacb355943c6c87198035dc4adbb0f10e4
-  Quick: 2623cb30d7a7f41ca62f684f679586558f483d46
+  JSONCoding: 1dab6a031cd2ebf6256b4cf49dbd5054f21955d9
+  Nimble: 45f786ae66faa9a709624227fae502db55a8bdd0
+  Quick: 4be43f6634acfa727dd106bdf3929ce125ffa79d
 
-PODFILE CHECKSUM: e10e78a0627c2303e962199bf903caaab9121bce
+PODFILE CHECKSUM: 9d3ff42ee894e785ee5e6364efd8f78f3c3a2278
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1

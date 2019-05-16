@@ -2,6 +2,6 @@ use_frameworks!
 target 'JSONCoding_Tests' do
   pod 'JSONCoding', :path => '../'
   
-  pod 'Quick', '~> 1.3', :inhibit_warnings => true
-  pod 'Nimble', '~> 7.3', :inhibit_warnings => true
+  pod 'Quick', '~> 2.1', :inhibit_warnings => true
+  pod 'Nimble', '~> 8.0', :inhibit_warnings => true
 end
